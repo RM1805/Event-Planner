@@ -96,10 +96,13 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:3001/login", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "https://event-planner-backend-ctos.onrender.com/login",
+        {
+          username,
+          password,
+        }
+      );
       localStorage.setItem("accessToken", response.data.accessToken);
       navigate("/events");
     } catch (error) {

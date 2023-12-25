@@ -290,9 +290,12 @@ const Events = () => {
   const fetchEvents = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-      const response = await axios.get("http://localhost:3001/events", {
-        headers: { Authorization: accessToken },
-      });
+      const response = await axios.get(
+        "https://event-planner-backend-ctos.onrender.com/events",
+        {
+          headers: { Authorization: accessToken },
+        }
+      );
       setEvents(response.data);
 
       // Initialize attendees state
@@ -315,7 +318,7 @@ const Events = () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await axios.post(
-        `http://localhost:3001/events/${eventId}/rsvp`,
+        `https://event-planner-backend-ctos.onrender.com/events/${eventId}/rsvp`,
         {},
         {
           headers: { Authorization: accessToken },
@@ -349,9 +352,13 @@ const Events = () => {
   const handleEventCreate = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-      await axios.post("http://localhost:3001/events", newEvent, {
-        headers: { Authorization: accessToken },
-      });
+      await axios.post(
+        "https://event-planner-backend-ctos.onrender.com/events",
+        newEvent,
+        {
+          headers: { Authorization: accessToken },
+        }
+      );
       // Refresh events after creating a new event
       fetchEvents();
     } catch (error) {

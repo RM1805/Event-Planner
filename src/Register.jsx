@@ -96,10 +96,13 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-      await axios.post("http://localhost:3001/register", {
-        username,
-        password,
-      });
+      await axios.post(
+        "https://event-planner-backend-ctos.onrender.com/register",
+        {
+          username,
+          password,
+        }
+      );
 
       navigate("/login");
     } catch (error) {
