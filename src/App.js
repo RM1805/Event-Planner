@@ -1,24 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import styled from "styled-components";
+import Login from "./Login";
+import Events from "./Events";
+import Register from "./Register";
+import Home from "./Home";
+
+const AppContainer = styled.div`
+  font-family: "Arial", sans-serif;
+`;
+
+const ProtectedRoute = ({ element }) => {
+  const accessToken = localStorage.getItem("accessToken");
+
+  if (!accessToken) {
+    return <Navigate to="/login" />;
+  }
+
+  return element;
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <AppContainer>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/events"
+            element={<ProtectedRoute element={<Events />} />}
+          />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </AppContainer>
+    </Router>
   );
 }
 
