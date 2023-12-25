@@ -15,25 +15,26 @@ const HomeContainer = styled.div`
 
 const Navbar = styled.nav`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  background-color: #2c3e50; /* Dark Grayish Blue */
+  background-color: #2c3e50;
   padding: 15px;
   border-radius: 10px 10px 0 0;
 `;
 
 const Logo = styled.h1`
-  color: #ecf0f1; /* Light Grayish Blue */
+  color: #ecf0f1;
   margin: 0;
   font-size: 24px;
 `;
 
 const NavigationLinks = styled.div`
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 10px;
 
   a {
-    color: #ecf0f1; /* Light Grayish Blue */
+    color: #ecf0f1;
     text-decoration: none;
     font-size: 18px;
     padding: 10px;
@@ -41,7 +42,7 @@ const NavigationLinks = styled.div`
     transition: background-color 0.3s ease-in-out;
 
     &:hover {
-      background-color: #34495e; /* Darker Grayish Blue */
+      background-color: #34495e;
     }
   }
 `;

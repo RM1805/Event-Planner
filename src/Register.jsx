@@ -1,32 +1,33 @@
-// Register.js
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { useNavigate, Link } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background: linear-gradient(45deg, #2980b9, #6ab0de); /* Gradient Blue */
+  min-height: 100vh;
+  background: linear-gradient(45deg, #2980b9, #6ab0de);
 `;
 
 const Navbar = styled.nav`
   width: 100%;
-  max-width: 450px; /* Set to the same size as RegisterContainer */
+  max-width: 410px; /* Set to the same size as RegisterContainer */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #2c3e50; /* Dark Grayish Blue */
+  background-color: #34495e;
   padding: 15px;
-  border-radius: 10px 10px 0 0; /* Border radius applied only to the top corners */
-  margin-bottom: 1px; /* Add margin between Navbar and RegisterContainer */
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 1px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const Logo = styled.h1`
-  color: #ecf0f1; /* Light Grayish Blue */
+  color: #ecf0f1;
   margin: 0;
   font-size: 24px;
 `;
@@ -36,7 +37,7 @@ const NavigationLinks = styled.div`
   gap: 20px;
 
   a {
-    color: #ecf0f1; /* Light Grayish Blue */
+    color: #ecf0f1;
     text-decoration: none;
     font-size: 18px;
     padding: 10px;
@@ -44,7 +45,7 @@ const NavigationLinks = styled.div`
     transition: background-color 0.3s ease-in-out;
 
     &:hover {
-      background-color: #34495e; /* Darker Grayish Blue */
+      background-color: #2c3e50;
     }
   }
 `;
@@ -52,20 +53,21 @@ const NavigationLinks = styled.div`
 const RegisterContainer = styled.div`
   width: 100%;
   max-width: 400px;
-  padding: 40px;
+  padding: 20px;
   background-color: #fff;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  border-radius: 0 0 10px 10px; /* Border radius applied only to the bottom corners */
+  border-radius: 0 0 10px 10px;
+  text-align: center;
 `;
 
 const Title = styled.h2`
-  color: #333;
-  font-size: 24px;
+  color: #3498db;
+  font-size: 28px;
   margin-bottom: 20px;
 `;
 
 const Input = styled.input`
-  width: 100%;
+  width: calc(100% - 30px);
   margin-bottom: 20px;
   padding: 15px;
   border: 1px solid #ddd;
@@ -74,9 +76,9 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  width: 100%;
+  width: calc(100% - 30px);
   padding: 15px;
-  background: #28a745; /* Green */
+  background: #3498db;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -85,16 +87,37 @@ const Button = styled.button`
   transition: background 0.3s ease-in-out;
 
   &:hover {
-    background: #218838; /* Darker Green */
+    background: #2980b9;
+  }
+`;
+
+const Loader = styled(CircularProgress)`
+  color: #3498db;
+  margin: 20px auto;
+`;
+
+const StyledLink = styled(Link)`
+  color: #3498db;
+  text-decoration: none;
+  font-size: 16px;
+  margin-top: 20px;
+  display: block;
+  transition: color 0.3s ease-in-out;
+
+  &:hover {
+    color: #2980b9;
   }
 `;
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleRegister = async () => {
+    setLoading(true);
     try {
       await axios.post(
         "https://event-planner-backend-ctos.onrender.com/register",
@@ -107,6 +130,8 @@ const Register = () => {
       navigate("/login");
     } catch (error) {
       console.error("Registration failed:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -120,7 +145,7 @@ const Register = () => {
         </NavigationLinks>
       </Navbar>
       <RegisterContainer>
-        <Title>Register</Title>
+        <Title>Join Event Planner</Title>
         <Input
           type="text"
           placeholder="Username"
@@ -131,7 +156,12 @@ const Register = () => {
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button onClick={handleRegister}>Register</Button>
+        <Button onClick={handleRegister} disabled={loading}>
+          {loading ? <Loader size={24} sx={{ color: "white" }} /> : "Register"}
+        </Button>
+        <StyledLink to="/login">
+          Already have an account? Login here.
+        </StyledLink>
       </RegisterContainer>
     </AppContainer>
   );
